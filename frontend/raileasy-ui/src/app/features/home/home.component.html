@@ -1,0 +1,50 @@
+<div class="home-container">
+  <div class="hero-section">
+    <h1>Book Train Tickets with Ease</h1>
+    <p>Search trains between stations, choose your class, and book in minutes.</p>
+  </div>
+
+  <div class="search-card">
+    <h2>Search Trains</h2>
+    <form (ngSubmit)="onSearch()" class="search-form">
+      <div class="form-group">
+        <label for="fromStation">From Station</label>
+        <input
+          id="fromStation"
+          type="text"
+          [(ngModel)]="fromStation"
+          name="fromStation"
+          placeholder="e.g. Chennai Central"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="toStation">To Station</label>
+        <input
+          id="toStation"
+          type="text"
+          [(ngModel)]="toStation"
+          name="toStation"
+          placeholder="e.g. Mumbai CSMT"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="journeyDate">Journey Date</label>
+        <input
+          id="journeyDate"
+          type="date"
+          [(ngModel)]="journeyDate"
+          name="journeyDate"
+          required
+        />
+      </div>
+
+      <button type="submit" class="btn-search" [disabled]="!fromStation || !toStation || !journeyDate">
+        Search Trains
+      </button>
+    </form>
+  </div>
+</div>

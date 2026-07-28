@@ -1,0 +1,60 @@
+<div class="search-results-container">
+  <div class="search-header">
+    <h2>Trains from {{ from }} to {{ to }}</h2>
+    <p class="search-date">Journey Date: {{ date }}</p>
+    <a routerLink="/" class="back-link">&larr; New Search</a>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <p>Searching for trains...</p>
+  </div>
+
+  <div class="error" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div class="no-results" *ngIf="!loading && !error && results.length === 0">
+    <p>No trains found for this route and date. Try different stations or date.</p>
+  </div>
+
+  <div class="results-list" *ngIf="!loading && results.length > 0">
+    <div class="train-card" *ngFor="let result of results">
+      <div class="train-info">
+        <div class="train-header">
+          <h3>{{ result.trainName }}</h3>
+          <span class="train-number">#{{ result.trainNumber }}</span>
+        </div>
+        <div class="train-timing">
+          <div class="time-block">
+            <span class="time">{{ formatTime(result.departureTime) }}</span>
+            <span class="station">{{ result.fromStation }}</span>
+            <span class="date">{{ formatDate(result.departureTime) }}</span>
+          </div>
+          <div class="duration-line">
+            <span class="line"></span>
+            <span class="arrow">→</span>
+          </div>
+          <div class="time-block">
+            <span class="time">{{ formatTime(result.arrivalTime) }}</span>
+            <span class="station">{{ result.toStation }}</span>
+            <span class="date">{{ formatDate(result.arrivalTime) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="class-options">
+        <div
+          class="class-card"
+          *ngFor="let cls of result.classAvailabilities"
+          [class.sold-out]="cls.seatsAvailable === 0"
+        >
+          <span class="class-name">{{ getClassLabel(cls.travelClass) }}</span>
+          <span class="class-fare">&#8377; {{ cls.fare }}</span>
+          <span class="class-seats" [class.low-seats]="cls.seatsAvailable < 10 && cls.seatsAvailable > 0">
+            {{ cls.seatsAvailable > 0 ? cls.seatsAvailable + ' seats' : 'Sold Out' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
