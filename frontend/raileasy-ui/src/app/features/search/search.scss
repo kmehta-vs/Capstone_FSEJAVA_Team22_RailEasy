@@ -1,0 +1,87 @@
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px 0;
+}
+
+.search-panel {
+  overflow: hidden;
+}
+
+.search-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: start;
+
+  button {
+    height: 56px;
+  }
+}
+
+@media (max-width: 720px) {
+  .search-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.error-msg {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #c62828;
+}
+
+.empty-msg {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.timing {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.9rem;
+}
+
+.classes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.class-chip {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 10px;
+  padding: 8px 12px;
+  min-width: 96px;
+
+  .class-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .fare {
+    color: var(--mat-sys-primary);
+    font-weight: 500;
+  }
+
+  .seats {
+    font-size: 0.75rem;
+    color: #2e7d32;
+
+    &.sold-out {
+      color: #c62828;
+    }
+  }
+}

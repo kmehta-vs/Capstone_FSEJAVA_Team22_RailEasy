@@ -1,0 +1,35 @@
+<section class="confirmation">
+  @if (booking(); as b) {
+    <mat-card class="confirm-card" appearance="outlined">
+      <div class="success-banner">
+        <mat-icon>check_circle</mat-icon>
+        <div>
+          <h2>Booking confirmed!</h2>
+          <p>Your seats are reserved. Note your PNR below.</p>
+        </div>
+      </div>
+
+      <mat-card-content>
+        <div class="pnr-box">
+          <span class="pnr-label">PNR</span>
+          <span class="pnr-value">{{ b.pnrNumber }}</span>
+        </div>
+
+        <dl class="details">
+          <div><dt>Train</dt><dd>{{ b.trainName }} · {{ b.trainNumber }}</dd></div>
+          <div><dt>Route</dt><dd>{{ b.fromStation }} → {{ b.toStation }}</dd></div>
+          <div><dt>Date</dt><dd>{{ b.journeyDate | date: 'fullDate' }}</dd></div>
+          <div><dt>Class</dt><dd>{{ labels[b.travelClass] }}</dd></div>
+          <div><dt>Seats</dt><dd>{{ b.seatNumbers.join(', ') }}</dd></div>
+          <div><dt>Fare / seat</dt><dd>₹{{ b.farePerSeat }}</dd></div>
+          <div class="total"><dt>Total paid</dt><dd>₹{{ b.totalFare }}</dd></div>
+        </dl>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <a matButton routerLink="/">Book another</a>
+        <a matButton="filled" color="primary" routerLink="/my-tickets">View my tickets</a>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>

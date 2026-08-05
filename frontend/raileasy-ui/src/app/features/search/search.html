@@ -1,0 +1,108 @@
+<section class="search">
+  <!-- Search panel -->
+  <mat-card class="search-panel" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Find trains</mat-card-title>
+      <mat-card-subtitle>Search by station and date</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="submit()" class="search-form">
+        <mat-form-field appearance="outline">
+          <mat-label>From station</mat-label>
+          <input matInput formControlName="from" placeholder="Chennai Central" />
+          <mat-icon matSuffix>train</mat-icon>
+          @if (form.controls.from.hasError('required')) {
+            <mat-error>From station is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>To station</mat-label>
+          <input matInput formControlName="to" placeholder="Mumbai CSMT" />
+          <mat-icon matSuffix>place</mat-icon>
+          @if (form.controls.to.hasError('required')) {
+            <mat-error>To station is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Journey date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date" />
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (form.controls.date.hasError('required')) {
+            <mat-error>Date is required</mat-error>
+          }
+        </mat-form-field>
+
+        <button matButton="filled" type="submit" [disabled]="loading()">
+          <mat-icon>search</mat-icon>
+          Search Trains
+        </button>
+      </form>
+    </mat-card-content>
+
+    @if (loading()) {
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    }
+  </mat-card>
+
+  <!-- Errors -->
+  @if (error()) {
+    <p class="error-msg">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </p>
+  }
+
+  <!-- Results -->
+  @if (searched() && !loading()) {
+    @if (results().length === 0 && !error()) {
+      <p class="empty-msg">No trains found for this route and date.</p>
+    }
+
+    <div class="results">
+      @for (r of results(); track r.scheduleId) {
+        <mat-card class="result-card" appearance="outlined">
+          <mat-card-header>
+            <mat-card-title>{{ r.trainName }} · {{ r.trainNumber }}</mat-card-title>
+            <mat-card-subtitle>{{ r.fromStation }} → {{ r.toStation }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p class="timing">
+              <mat-icon>schedule</mat-icon>
+              Dep {{ r.departureTime | date: 'MMM d, HH:mm' }}
+              &nbsp;·&nbsp;
+              Arr {{ r.arrivalTime | date: 'MMM d, HH:mm' }}
+            </p>
+
+            <div class="classes">
+              @for (c of r.classes; track c.travelClass) {
+                <div class="class-chip">
+                  <span class="class-name">{{ labels[c.travelClass] }}</span>
+                  <span class="fare">₹{{ c.fare }}</span>
+                  <span class="seats" [class.sold-out]="c.seatsAvailable === 0">
+                    {{ c.seatsAvailable }} left
+                  </span>
+                  <button
+                    matButton
+                    [disabled]="c.seatsAvailable === 0"
+                    (click)="selectClass(r, c)"
+                  >
+                    Select
+                  </button>
+                </div>
+              }
+            </div>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <span class="hint">Pick a class to choose seats</span>
+          </mat-card-actions>
+        </mat-card>
+      }
+    </div>
+  }
+</section>

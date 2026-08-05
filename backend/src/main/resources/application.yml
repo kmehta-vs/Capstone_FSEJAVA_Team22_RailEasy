@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: raileasy-backend
+  profiles:
+    active: dev
+
+# Default JWT settings (overridable via env). Used from Sprint 2 onward.
+app:
+  jwt:
+    # Base64-friendly secret (>= 256 bits for HS256). Override in production.
+    secret: "cmFpbGVhc3ktZm91bmRhdGlvbi1zZWNyZXQta2V5LWNoYW5nZS1tZS0xMjM0NTY3ODkw"
+    # 24 hours in milliseconds
+    expiration-ms: 86400000
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+server:
+  port: 8080

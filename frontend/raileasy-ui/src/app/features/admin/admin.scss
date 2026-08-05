@@ -1,0 +1,32 @@
+.admin {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  h2 {
+    margin-top: 0;
+  }
+}
+
+.tab-body {
+  padding-top: 1rem;
+}
+
+.tab-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+}
+
+.table-card {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+  }
+}
+
+.row-actions {
+  white-space: nowrap;
+  text-align: right;
+}

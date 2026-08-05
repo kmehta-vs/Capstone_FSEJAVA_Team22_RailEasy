@@ -1,0 +1,56 @@
+// RailEasy global styles + Angular Material (M3) theme
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background-color: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+.raileasy-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+// Shared dialog form layout (train/schedule add-edit dialogs)
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  min-width: 320px;
+
+  .row {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+
+    mat-form-field {
+      flex: 1 1 160px;
+    }
+  }
+}

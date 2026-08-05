@@ -1,0 +1,243 @@
+{
+  "info": {
+    "name": "RailEasy API",
+    "description": "RailEasy - Train Ticket Booking. Grows sprint by sprint. Base URL via {{baseUrl}} (default http://localhost:8080/api).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /auth/register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"rider@raileasy.com\",\n  \"password\": \"Rider@123\",\n  \"name\": \"Rider\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "POST /auth/login (admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res && res.token) { pm.collectionVariables.set('token', res.token); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@raileasy.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "POST /auth/logout",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trains",
+      "item": [
+        {
+          "name": "GET /trains",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/trains", "host": ["{{baseUrl}}"], "path": ["trains"] }
+          }
+        },
+        {
+          "name": "POST /trains (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trainNumber\": \"12345\",\n  \"trainName\": \"Deccan Queen\",\n  \"seatsPerClass\": 64\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/trains", "host": ["{{baseUrl}}"], "path": ["trains"] }
+          }
+        },
+        {
+          "name": "PUT /trains/{id} (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trainNumber\": \"12345\",\n  \"trainName\": \"Deccan Queen Express\",\n  \"seatsPerClass\": 64\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/trains/REPLACE_TRAIN_ID", "host": ["{{baseUrl}}"], "path": ["trains", "REPLACE_TRAIN_ID"] }
+          }
+        },
+        {
+          "name": "DELETE /trains/{id} (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/trains/REPLACE_TRAIN_ID", "host": ["{{baseUrl}}"], "path": ["trains", "REPLACE_TRAIN_ID"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedules",
+      "item": [
+        {
+          "name": "GET /schedules (search)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/schedules?from=Chennai Central&to=Mumbai CSMT&date=2025-10-21",
+              "host": ["{{baseUrl}}"],
+              "path": ["schedules"],
+              "query": [
+                { "key": "from", "value": "Chennai Central" },
+                { "key": "to", "value": "Mumbai CSMT" },
+                { "key": "date", "value": "2025-10-21" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET /schedules/{id}/seats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/schedules/REPLACE_SCHEDULE_ID/seats?travelClass=AC_3",
+              "host": ["{{baseUrl}}"],
+              "path": ["schedules", "REPLACE_SCHEDULE_ID", "seats"],
+              "query": [{ "key": "travelClass", "value": "AC_3" }]
+            }
+          }
+        },
+        {
+          "name": "GET /schedules/all (admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/schedules/all", "host": ["{{baseUrl}}"], "path": ["schedules", "all"] }
+          }
+        },
+        {
+          "name": "POST /schedules (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trainId\": \"REPLACE_TRAIN_ID\",\n  \"fromStation\": \"Pune\",\n  \"toStation\": \"Mumbai CSMT\",\n  \"departureTime\": \"2025-10-22T07:00:00\",\n  \"arrivalTime\": \"2025-10-22T10:30:00\",\n  \"journeyDate\": \"2025-10-22\",\n  \"fareSleeper\": 300,\n  \"fareAc3\": 800,\n  \"fareAc2\": 1200\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/schedules", "host": ["{{baseUrl}}"], "path": ["schedules"] }
+          }
+        },
+        {
+          "name": "PUT /schedules/{id} (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trainId\": \"REPLACE_TRAIN_ID\",\n  \"fromStation\": \"Pune\",\n  \"toStation\": \"Mumbai CSMT\",\n  \"departureTime\": \"2025-10-22T07:30:00\",\n  \"arrivalTime\": \"2025-10-22T11:00:00\",\n  \"journeyDate\": \"2025-10-22\",\n  \"fareSleeper\": 320,\n  \"fareAc3\": 850,\n  \"fareAc2\": 1250\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/schedules/REPLACE_SCHEDULE_ID", "host": ["{{baseUrl}}"], "path": ["schedules", "REPLACE_SCHEDULE_ID"] }
+          }
+        },
+        {
+          "name": "DELETE /schedules/{id} (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/schedules/REPLACE_SCHEDULE_ID", "host": ["{{baseUrl}}"], "path": ["schedules", "REPLACE_SCHEDULE_ID"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "POST /bookings",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scheduleId\": \"REPLACE_SCHEDULE_ID\",\n  \"travelClass\": \"AC_3\",\n  \"seatNumbers\": [\"1A\", \"1B\"]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/bookings", "host": ["{{baseUrl}}"], "path": ["bookings"] }
+          }
+        },
+        {
+          "name": "GET /bookings/mine",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/bookings/mine", "host": ["{{baseUrl}}"], "path": ["bookings", "mine"] }
+          }
+        },
+        {
+          "name": "PUT /bookings/{id}/cancel",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{baseUrl}}/bookings/REPLACE_BOOKING_ID/cancel", "host": ["{{baseUrl}}"], "path": ["bookings", "REPLACE_BOOKING_ID", "cancel"] }
+          }
+        }
+      ]
+    }
+  ]
+}

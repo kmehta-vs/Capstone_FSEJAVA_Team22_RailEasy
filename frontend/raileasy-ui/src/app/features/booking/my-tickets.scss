@@ -1,0 +1,40 @@
+.my-tickets {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.empty-card {
+  margin-top: 1rem;
+}
+
+.table-card {
+  margin-top: 1rem;
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+  }
+}
+
+mat-chip {
+  &.confirmed {
+    background: #c8e6c9;
+    color: #1b5e20;
+  }
+
+  &.cancelled {
+    background: #ffcdd2;
+    color: #b71c1c;
+  }
+}

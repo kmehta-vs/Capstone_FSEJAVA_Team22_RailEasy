@@ -1,0 +1,34 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <a routerLink="/" class="brand">
+    <mat-icon>train</mat-icon>
+    <span>{{ title() }}</span>
+  </a>
+  <span class="spacer"></span>
+  <a matButton routerLink="/">Home</a>
+  @if (auth.isLoggedIn()) {
+    <a matButton routerLink="/my-tickets">My Tickets</a>
+    <button matButton [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
+      {{ auth.user()?.name }}
+    </button>
+    <mat-menu #userMenu="matMenu">
+      @if (auth.isAdmin()) {
+        <a mat-menu-item routerLink="/admin">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <span>Admin</span>
+        </a>
+      }
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sign out</span>
+      </button>
+    </mat-menu>
+  } @else {
+    <a matButton routerLink="/login">Sign in</a>
+    <a matButton="filled" routerLink="/register">Register</a>
+  }
+</mat-toolbar>
+
+<main class="raileasy-container">
+  <router-outlet></router-outlet>
+</main>

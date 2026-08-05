@@ -1,0 +1,63 @@
+<section class="seat-selection">
+  <div class="header-row">
+    <button matIconButton (click)="back()" aria-label="Back to search">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div>
+      <h2>{{ trainName }}</h2>
+      <p class="subtitle">{{ labels[travelClass] }} · ₹{{ fare }} per seat</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+
+  @if (error()) {
+    <p class="error-msg">
+      <mat-icon>error</mat-icon>
+      {{ error() }}
+    </p>
+  }
+
+  @if (!loading() && !error()) {
+    <mat-card class="seat-card" appearance="outlined">
+      <mat-card-content>
+        <div class="legend">
+          <span class="legend-item"><span class="swatch available"></span> Available</span>
+          <span class="legend-item"><span class="swatch selected"></span> Selected</span>
+          <span class="legend-item"><span class="swatch booked"></span> Booked</span>
+        </div>
+
+        <div class="grid">
+          @for (seat of seats(); track seat.label) {
+            <button
+              type="button"
+              class="seat"
+              [class.booked]="seat.booked"
+              [class.selected]="isSelected(seat.label)"
+              [disabled]="seat.booked"
+              (click)="toggle(seat)"
+              [attr.aria-label]="'Seat ' + seat.label + (seat.booked ? ' booked' : '')"
+            >
+              {{ seat.label }}
+            </button>
+          }
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="summary">
+        <div class="summary-info">
+          <span>{{ selected().length }} / {{ maxSeats }} seats</span>
+          @if (selected().length > 0) {
+            <span class="seats-list">{{ selected().join(', ') }}</span>
+          }
+          <span class="total">Total: ₹{{ totalFare() }}</span>
+        </div>
+        <button matButton="filled" color="primary" (click)="proceed()" [disabled]="booking()">
+          {{ booking() ? 'Booking…' : 'Confirm Booking' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>

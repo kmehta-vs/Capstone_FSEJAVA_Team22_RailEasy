@@ -1,0 +1,15 @@
+package com.raileasy;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * RailEasy - Train Ticket Booking application entry point.
+ */
+@SpringBootApplication
+public class RailEasyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(RailEasyApplication.class, args);
+    }
+}

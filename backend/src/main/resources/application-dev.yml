@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------------------
+# DEV profile - H2 file-based database
+# H2 console: http://localhost:8080/h2-console
+#   JDBC URL: jdbc:h2:file:./data/raileasy
+#   User:     sa   (no password)
+# ---------------------------------------------------------------------------
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/raileasy;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      # Rebuild schema each run so data.sql seeds cleanly during development.
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    # Ensure Hibernate creates the schema BEFORE data.sql runs.
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    com.raileasy: DEBUG
