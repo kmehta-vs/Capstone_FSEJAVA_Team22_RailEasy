@@ -1,34 +1,89 @@
-<mat-toolbar color="primary" class="app-toolbar">
-  <a routerLink="/" class="brand">
-    <mat-icon>train</mat-icon>
-    <span>{{ title() }}</span>
-  </a>
-  <span class="spacer"></span>
-  <a matButton routerLink="/">Home</a>
-  @if (auth.isLoggedIn()) {
-    <a matButton routerLink="/my-tickets">My Tickets</a>
-    <button matButton [matMenuTriggerFor]="userMenu">
-      <mat-icon>account_circle</mat-icon>
-      {{ auth.user()?.name }}
-    </button>
-    <mat-menu #userMenu="matMenu">
-      @if (auth.isAdmin()) {
-        <a mat-menu-item routerLink="/admin">
-          <mat-icon>admin_panel_settings</mat-icon>
-          <span>Admin</span>
-        </a>
-      }
-      <button mat-menu-item (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Sign out</span>
-      </button>
-    </mat-menu>
-  } @else {
-    <a matButton routerLink="/login">Sign in</a>
-    <a matButton="filled" routerLink="/register">Register</a>
-  }
-</mat-toolbar>
+<div class="re-shell">
+  <header class="re-header">
+    <div class="re-header__bar">
+      <a routerLink="/" class="re-brand">
+        <span class="re-brand__mark"><mat-icon>train</mat-icon></span>
+        <span class="re-brand__name">{{ title() }}</span>
+      </a>
 
-<main class="raileasy-container">
-  <router-outlet></router-outlet>
-</main>
+      <nav class="re-nav" aria-label="Primary">
+        <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" class="re-nav__link">
+          Search trains
+        </a>
+        @if (auth.isLoggedIn()) {
+          <a routerLink="/my-tickets" routerLinkActive="is-active" class="re-nav__link">My tickets</a>
+        }
+        @if (auth.isAdmin()) {
+          <a routerLink="/admin" routerLinkActive="is-active" class="re-nav__link">Admin console</a>
+        }
+      </nav>
+
+      <div class="spacer"></div>
+
+      <div class="re-header__actions">
+        @if (auth.isLoggedIn()) {
+          <button class="re-user" [matMenuTriggerFor]="userMenu" type="button">
+            <span class="re-user__avatar">{{ (auth.user()?.name ?? '?').charAt(0) }}</span>
+            <span class="re-user__name">{{ auth.user()?.name }}</span>
+            <mat-icon class="re-user__chevron">expand_more</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            @if (auth.isAdmin()) {
+              <a mat-menu-item routerLink="/admin">
+                <mat-icon>admin_panel_settings</mat-icon>
+                <span>Admin console</span>
+              </a>
+            }
+            <a mat-menu-item routerLink="/my-tickets">
+              <mat-icon>confirmation_number</mat-icon>
+              <span>My tickets</span>
+            </a>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Sign out</span>
+            </button>
+          </mat-menu>
+        } @else {
+          <a routerLink="/login" class="re-btn re-btn--ghost re-btn--sm">Sign in</a>
+          <a routerLink="/register" class="re-btn re-btn--primary re-btn--sm">Get started</a>
+        }
+
+        <button
+          type="button"
+          class="re-nav-toggle"
+          (click)="toggleMobileNav()"
+          [attr.aria-expanded]="mobileNavOpen()"
+          aria-label="Toggle navigation menu"
+        >
+          <mat-icon>{{ mobileNavOpen() ? 'close' : 'menu' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    @if (mobileNavOpen()) {
+      <nav class="re-mobile-nav" aria-label="Mobile">
+        <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="is-active">Search trains</a>
+        @if (auth.isLoggedIn()) {
+          <a routerLink="/my-tickets" routerLinkActive="is-active">My tickets</a>
+        }
+        @if (auth.isAdmin()) {
+          <a routerLink="/admin" routerLinkActive="is-active">Admin console</a>
+        }
+        @if (!auth.isLoggedIn()) {
+          <a routerLink="/login">Sign in</a>
+          <a routerLink="/register">Create account</a>
+        } @else {
+          <button type="button" (click)="logout()">Sign out</button>
+        }
+      </nav>
+    }
+  </header>
+
+  <main class="re-page">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="re-footer">
+    <span>© 2026 RailEasy. Built for smoother journeys.</span>
+  </footer>
+</div>

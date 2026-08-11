@@ -1,10 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -18,11 +15,8 @@ import { Booking, TRAVEL_CLASS_LABELS } from '../../core/models/api-models';
   selector: 'app-my-tickets',
   imports: [
     DatePipe,
-    MatCardModule,
-    MatTableModule,
-    MatButtonModule,
+    RouterLink,
     MatIconModule,
-    MatChipsModule,
     MatProgressBarModule,
   ],
   templateUrl: './my-tickets.html',

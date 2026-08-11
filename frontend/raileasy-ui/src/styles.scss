@@ -1,4 +1,10 @@
-// RailEasy global styles + Angular Material (M3) theme
+// =============================================================================
+// RailEasy — Design System
+// A cohesive, product-grade visual language layered on top of Angular Material.
+// Material components are kept for functionality (datepicker, dialogs, form
+// controls) but are heavily re-skinned so the app no longer reads as a
+// generic Material dashboard.
+// =============================================================================
 @use '@angular/material' as mat;
 
 html {
@@ -6,12 +12,99 @@ html {
   @include mat.theme((
     color: (
       theme-type: light,
-      primary: mat.$azure-palette,
+      primary: mat.$violet-palette,
       tertiary: mat.$blue-palette,
     ),
-    typography: Roboto,
+    typography: 'Inter, "Helvetica Neue", Arial, sans-serif',
     density: 0,
   ));
+}
+
+// -----------------------------------------------------------------------------
+// Design tokens
+// -----------------------------------------------------------------------------
+:root {
+  // Brand
+  --re-primary-900: #1e1b4b;
+  --re-primary-800: #312e81;
+  --re-primary-700: #3730a3;
+  --re-primary-600: #4338ca;
+  --re-primary-500: #4f46e5;
+  --re-primary-400: #6366f1;
+  --re-primary-100: #e0e7ff;
+  --re-primary-50: #eef2ff;
+
+  --re-accent-600: #d97706;
+  --re-accent-500: #f59e0b;
+  --re-accent-400: #fbbf24;
+  --re-accent-100: #fef3c7;
+
+  --re-success-600: #15803d;
+  --re-success-500: #16a34a;
+  --re-success-100: #dcfce7;
+  --re-danger-600: #b91c1c;
+  --re-danger-500: #dc2626;
+  --re-danger-100: #fee2e2;
+  --re-warning-600: #b45309;
+  --re-warning-100: #fef3c7;
+
+  // Neutrals
+  --re-ink-900: #0f172a;
+  --re-ink-800: #1e293b;
+  --re-ink-700: #334155;
+  --re-ink-600: #475569;
+  --re-ink-500: #64748b;
+  --re-ink-400: #94a3b8;
+  --re-ink-300: #cbd5e1;
+  --re-ink-200: #e2e8f0;
+  --re-ink-100: #f1f5f9;
+  --re-ink-50: #f8fafc;
+  --re-white: #ffffff;
+
+  // Surfaces
+  --re-bg: #f5f6fb;
+  --re-surface: #ffffff;
+  --re-surface-raised: #ffffff;
+  --re-border: #e4e7f0;
+  --re-border-strong: #d7dbe8;
+
+  // Typography scale
+  --re-font-sans: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --re-fs-xs: 0.75rem;
+  --re-fs-sm: 0.8125rem;
+  --re-fs-base: 0.9375rem;
+  --re-fs-md: 1.0625rem;
+  --re-fs-lg: 1.25rem;
+  --re-fs-xl: 1.625rem;
+  --re-fs-2xl: 2.1rem;
+  --re-fs-3xl: 2.75rem;
+
+  // Radius / elevation
+  --re-radius-sm: 8px;
+  --re-radius-md: 12px;
+  --re-radius-lg: 18px;
+  --re-radius-pill: 999px;
+
+  --re-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 1px rgba(15, 23, 42, 0.04);
+  --re-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.07), 0 2px 4px rgba(15, 23, 42, 0.05);
+  --re-shadow-lg: 0 16px 40px rgba(30, 27, 75, 0.14), 0 4px 10px rgba(30, 27, 75, 0.06);
+
+  // Spacing scale
+  --re-space-1: 4px;
+  --re-space-2: 8px;
+  --re-space-3: 12px;
+  --re-space-4: 16px;
+  --re-space-5: 20px;
+  --re-space-6: 24px;
+  --re-space-8: 32px;
+  --re-space-10: 40px;
+  --re-space-12: 48px;
+
+  --re-header-h: 68px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html,
@@ -21,26 +114,542 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
+  font-family: var(--re-font-sans);
+  background: var(--re-bg);
+  color: var(--re-ink-800);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.raileasy-container {
-  max-width: 1080px;
+h1, h2, h3, h4, h5 {
+  font-family: var(--re-font-sans);
+  color: var(--re-ink-900);
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+a {
+  color: inherit;
+}
+
+// Focus visibility (accessibility) — consistent ring across custom controls
+:focus-visible {
+  outline: 2px solid var(--re-primary-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Layout shell
+// -----------------------------------------------------------------------------
+.re-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.re-page {
+  width: 100%;
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 16px;
+  padding: var(--re-space-8) var(--re-space-6) var(--re-space-12);
 }
 
+@media (max-width: 720px) {
+  .re-page {
+    padding: var(--re-space-6) var(--re-space-4) var(--re-space-10);
+  }
+}
+
+.re-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--re-space-6);
+  margin-bottom: var(--re-space-8);
+  flex-wrap: wrap;
+}
+
+.re-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--re-fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--re-primary-600);
+  margin-bottom: var(--re-space-2);
+}
+
+.re-page-title {
+  font-size: var(--re-fs-2xl);
+  line-height: 1.15;
+}
+
+.re-page-subtitle {
+  margin-top: var(--re-space-2);
+  color: var(--re-ink-500);
+  font-size: var(--re-fs-base);
+  max-width: 56ch;
+}
+
+// -----------------------------------------------------------------------------
+// Card
+// -----------------------------------------------------------------------------
+.re-card {
+  background: var(--re-surface);
+  border: 1px solid var(--re-border);
+  border-radius: var(--re-radius-lg);
+  box-shadow: var(--re-shadow-sm);
+}
+
+.re-card--padded {
+  padding: var(--re-space-6);
+}
+
+// Neutralize Material card chrome so mat-card reads as our own card
+mat-card.mat-mdc-card {
+  --mdc-elevated-card-container-color: var(--re-surface);
+  border: 1px solid var(--re-border);
+  border-radius: var(--re-radius-lg) !important;
+  box-shadow: var(--re-shadow-sm) !important;
+}
+
+// -----------------------------------------------------------------------------
+// Buttons — consistent, deliberate hierarchy
+// -----------------------------------------------------------------------------
+.re-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--re-font-sans);
+  font-size: var(--re-fs-base);
+  font-weight: 600;
+  border-radius: var(--re-radius-sm);
+  padding: 0 20px;
+  height: 46px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+.re-btn--sm {
+  height: 38px;
+  padding: 0 14px;
+  font-size: var(--re-fs-sm);
+}
+
+.re-btn--primary {
+  background: var(--re-primary-600);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(67, 56, 202, 0.15), 0 4px 10px rgba(67, 56, 202, 0.18);
+
+  &:hover:not(:disabled) {
+    background: var(--re-primary-700);
+  }
+}
+
+.re-btn--secondary {
+  background: var(--re-white);
+  color: var(--re-ink-700);
+  border-color: var(--re-border-strong);
+
+  &:hover:not(:disabled) {
+    background: var(--re-ink-50);
+    border-color: var(--re-ink-400);
+  }
+}
+
+.re-btn--ghost {
+  background: transparent;
+  color: var(--re-ink-600);
+
+  &:hover:not(:disabled) {
+    background: var(--re-ink-100);
+    color: var(--re-ink-900);
+  }
+}
+
+.re-btn--danger {
+  background: transparent;
+  color: var(--re-danger-600);
+  border-color: var(--re-danger-100);
+
+  &:hover:not(:disabled) {
+    background: var(--re-danger-100);
+  }
+}
+
+.re-btn--full {
+  width: 100%;
+}
+
+.re-btn--icon {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: var(--re-radius-sm);
+}
+
+// Re-skin Material buttons so any remaining mat-button reads as our system
+.mat-mdc-button-base {
+  border-radius: var(--re-radius-sm) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+}
+
+// -----------------------------------------------------------------------------
+// Badges / status pills
+// -----------------------------------------------------------------------------
+.re-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--re-fs-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--re-radius-pill);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}
+
+.re-badge--success {
+  background: var(--re-success-100);
+  color: var(--re-success-600);
+}
+
+.re-badge--danger {
+  background: var(--re-danger-100);
+  color: var(--re-danger-600);
+}
+
+.re-badge--neutral {
+  background: var(--re-ink-100);
+  color: var(--re-ink-600);
+}
+
+.re-badge--warning {
+  background: var(--re-warning-100);
+  color: var(--re-warning-600);
+}
+
+// -----------------------------------------------------------------------------
+// Forms — shared field styling for custom + Material inputs
+// -----------------------------------------------------------------------------
+.re-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.re-label {
+  font-size: var(--re-fs-sm);
+  font-weight: 600;
+  color: var(--re-ink-700);
+}
+
+.re-input,
+.re-select {
+  font-family: var(--re-font-sans);
+  font-size: var(--re-fs-base);
+  height: 46px;
+  padding: 0 14px;
+  border-radius: var(--re-radius-sm);
+  border: 1.5px solid var(--re-border-strong);
+  background: var(--re-white);
+  color: var(--re-ink-900);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: var(--re-ink-400);
+  }
+
+  &:hover {
+    border-color: var(--re-ink-400);
+  }
+
+  &:focus-visible,
+  &:focus {
+    outline: none;
+    border-color: var(--re-primary-500);
+    box-shadow: 0 0 0 3px var(--re-primary-100);
+  }
+}
+
+.re-error {
+  font-size: var(--re-fs-xs);
+  color: var(--re-danger-600);
+  font-weight: 500;
+}
+
+.re-hint {
+  font-size: var(--re-fs-xs);
+  color: var(--re-ink-500);
+}
+
+// Material form-field re-skin (outline appearance)
+.mat-mdc-form-field {
+  width: 100%;
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: var(--re-border-strong) !important;
+  }
+
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--re-primary-500) !important;
+    }
+  }
+}
+
+.mat-mdc-text-field-wrapper {
+  border-radius: var(--re-radius-sm) !important;
+}
+
+// -----------------------------------------------------------------------------
+// Tables — dense, scannable data
+// -----------------------------------------------------------------------------
+.re-table-wrap {
+  border: 1px solid var(--re-border);
+  border-radius: var(--re-radius-lg);
+  overflow: hidden;
+  background: var(--re-surface);
+  box-shadow: var(--re-shadow-sm);
+}
+
+.re-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    font-size: var(--re-fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--re-ink-500);
+    background: var(--re-ink-50);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--re-border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 14px 16px;
+    font-size: var(--re-fs-base);
+    color: var(--re-ink-800);
+    border-bottom: 1px solid var(--re-ink-100);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr {
+    transition: background-color 0.12s ease;
+
+    &:hover {
+      background: var(--re-primary-50);
+    }
+  }
+}
+
+table.mat-mdc-table {
+  width: 100%;
+  background: transparent;
+
+  th.mat-mdc-header-cell {
+    font-size: var(--re-fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: var(--re-ink-500);
+    background: var(--re-ink-50);
+  }
+
+  td.mat-mdc-cell,
+  th.mat-mdc-header-cell {
+    border-bottom-color: var(--re-ink-100);
+    padding: 4px 16px;
+  }
+
+  tr.mat-mdc-row:hover {
+    background: var(--re-primary-50);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Empty / loading / error states
+// -----------------------------------------------------------------------------
+.re-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--re-space-3);
+  padding: var(--re-space-12) var(--re-space-6);
+  border: 1px dashed var(--re-border-strong);
+  border-radius: var(--re-radius-lg);
+  background: var(--re-surface);
+  color: var(--re-ink-500);
+}
+
+.re-state__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--re-primary-50);
+  color: var(--re-primary-600);
+
+  mat-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+  }
+}
+
+.re-state__title {
+  font-size: var(--re-fs-md);
+  font-weight: 700;
+  color: var(--re-ink-800);
+}
+
+.re-state__body {
+  font-size: var(--re-fs-sm);
+  max-width: 40ch;
+}
+
+.re-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--re-radius-sm);
+  font-size: var(--re-fs-sm);
+  font-weight: 500;
+  border: 1px solid transparent;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    flex: none;
+    margin-top: 1px;
+  }
+}
+
+.re-alert--error {
+  background: var(--re-danger-100);
+  color: var(--re-danger-600);
+  border-color: rgba(220, 38, 38, 0.15);
+}
+
+.re-alert--info {
+  background: var(--re-primary-50);
+  color: var(--re-primary-700);
+  border-color: var(--re-primary-100);
+}
+
+// Skeleton loading
+.re-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--re-ink-100);
+  border-radius: var(--re-radius-sm);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+    animation: re-shimmer 1.4s infinite;
+  }
+}
+
+@keyframes re-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+mat-progress-bar {
+  border-radius: var(--re-radius-pill);
+  overflow: hidden;
+  height: 4px !important;
+}
+
+// -----------------------------------------------------------------------------
+// Utility
+// -----------------------------------------------------------------------------
 .spacer {
   flex: 1 1 auto;
+}
+
+.re-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 // Shared dialog form layout (train/schedule add-edit dialogs)
 .dialog-form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 4px;
   padding-top: 0.5rem;
   min-width: 320px;
 
@@ -53,4 +662,17 @@ body {
       flex: 1 1 160px;
     }
   }
+}
+
+.mat-mdc-dialog-surface {
+  border-radius: var(--re-radius-lg) !important;
+}
+
+.mat-mdc-dialog-title {
+  font-family: var(--re-font-sans) !important;
+  font-weight: 700 !important;
+}
+
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-left: none !important;
 }

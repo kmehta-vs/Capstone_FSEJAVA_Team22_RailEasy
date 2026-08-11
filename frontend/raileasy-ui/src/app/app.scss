@@ -1,14 +1,200 @@
-.app-toolbar {
+.re-header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 20;
+  background: var(--re-white);
+  border-bottom: 1px solid var(--re-border);
 }
 
-.brand {
+.re-header__bar {
+  height: var(--re-header-h);
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--re-space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--re-space-8);
+}
+
+.re-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--re-ink-900);
+  flex: none;
+}
+
+.re-brand__mark {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--re-primary-500), var(--re-primary-700));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(67, 56, 202, 0.28);
+
+  mat-icon {
+    font-size: 19px;
+    width: 19px;
+    height: 19px;
+  }
+}
+
+.re-brand__name {
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.re-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.re-nav__link {
+  text-decoration: none;
+  color: var(--re-ink-600);
+  font-weight: 600;
+  font-size: var(--re-fs-sm);
+  padding: 8px 14px;
+  border-radius: var(--re-radius-sm);
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--re-ink-100);
+    color: var(--re-ink-900);
+  }
+
+  &.is-active {
+    color: var(--re-primary-700);
+    background: var(--re-primary-50);
+  }
+}
+
+.re-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.re-user {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  text-decoration: none;
-  color: inherit;
+  background: transparent;
+  border: 1px solid var(--re-border-strong);
+  border-radius: var(--re-radius-pill);
+  padding: 4px 12px 4px 4px;
+  cursor: pointer;
+  color: var(--re-ink-800);
+  font-family: var(--re-font-sans);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    background: var(--re-ink-50);
+    border-color: var(--re-ink-400);
+  }
+}
+
+.re-user__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--re-primary-100);
+  color: var(--re-primary-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.re-user__name {
+  font-size: var(--re-fs-sm);
   font-weight: 600;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.re-user__chevron {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: var(--re-ink-400);
+}
+
+.re-nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--re-border-strong);
+  border-radius: var(--re-radius-sm);
+  background: var(--re-white);
+  cursor: pointer;
+  color: var(--re-ink-700);
+}
+
+.re-mobile-nav {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .re-nav {
+    display: none;
+  }
+
+  .re-nav-toggle {
+    display: inline-flex;
+  }
+
+  .re-header__actions a.re-btn,
+  .re-header__actions .re-user__name {
+    display: none;
+  }
+
+  .re-mobile-nav {
+    display: flex;
+    flex-direction: column;
+    padding: var(--re-space-2) var(--re-space-4) var(--re-space-4);
+    border-top: 1px solid var(--re-border);
+    background: var(--re-white);
+
+    a,
+    button {
+      appearance: none;
+      background: none;
+      border: none;
+      text-align: left;
+      text-decoration: none;
+      color: var(--re-ink-700);
+      font: inherit;
+      font-weight: 600;
+      font-size: var(--re-fs-base);
+      padding: 12px 4px;
+      border-bottom: 1px solid var(--re-ink-100);
+      cursor: pointer;
+
+      &.is-active {
+        color: var(--re-primary-700);
+      }
+    }
+  }
+}
+
+.re-footer {
+  margin-top: auto;
+  padding: var(--re-space-6);
+  text-align: center;
+  color: var(--re-ink-400);
+  font-size: var(--re-fs-xs);
+  border-top: 1px solid var(--re-border);
 }

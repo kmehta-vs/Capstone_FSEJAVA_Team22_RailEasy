@@ -1,7 +1,11 @@
 <section class="my-tickets">
-  <div class="header">
-    <h2>My Tickets</h2>
-    <button matButton (click)="load()" [disabled]="loading()">
+  <div class="re-page-head">
+    <div>
+      <p class="re-eyebrow">Your journeys</p>
+      <h1 class="re-page-title">My tickets</h1>
+      <p class="re-page-subtitle">Track upcoming trips, revisit past bookings, and cancel when plans change.</p>
+    </div>
+    <button class="re-btn re-btn--secondary" (click)="load()" [disabled]="loading()">
       <mat-icon>refresh</mat-icon>
       Refresh
     </button>
@@ -12,70 +16,47 @@
   }
 
   @if (isEmpty()) {
-    <mat-card appearance="outlined" class="empty-card">
-      <mat-card-content>You have no bookings yet.</mat-card-content>
-    </mat-card>
+    <div class="re-state">
+      <span class="re-state__icon"><mat-icon>confirmation_number</mat-icon></span>
+      <p class="re-state__title">No bookings yet</p>
+      <p class="re-state__body">Once you book a trip, it will show up here with your PNR and seat details.</p>
+      <a routerLink="/" class="re-btn re-btn--primary re-btn--sm">Search trains</a>
+    </div>
   } @else if (!loading()) {
-    <mat-card appearance="outlined" class="table-card">
-      <table mat-table [dataSource]="tickets()">
-        <ng-container matColumnDef="pnr">
-          <th mat-header-cell *matHeaderCellDef>PNR</th>
-          <td mat-cell *matCellDef="let t">{{ t.pnrNumber }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="train">
-          <th mat-header-cell *matHeaderCellDef>Train</th>
-          <td mat-cell *matCellDef="let t">{{ t.trainName }} · {{ t.trainNumber }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef>Date</th>
-          <td mat-cell *matCellDef="let t">{{ t.journeyDate | date: 'mediumDate' }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="class">
-          <th mat-header-cell *matHeaderCellDef>Class</th>
-          <td mat-cell *matCellDef="let t">{{ $any(labels)[t.travelClass] }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="seats">
-          <th mat-header-cell *matHeaderCellDef>Seats</th>
-          <td mat-cell *matCellDef="let t">{{ t.seatNumbers.join(', ') }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="total">
-          <th mat-header-cell *matHeaderCellDef>Total</th>
-          <td mat-cell *matCellDef="let t">₹{{ t.totalFare }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let t">
-            <mat-chip [class.cancelled]="t.status === 'CANCELLED'" [class.confirmed]="t.status === 'CONFIRMED'">
-              {{ t.status }}
-            </mat-chip>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let t">
+    <div class="tickets-list">
+      @for (t of tickets(); track t.id) {
+        <article class="re-card ticket-card">
+          <div class="ticket-card__main">
+            <div class="ticket-card__head">
+              <span class="ticket-pnr">PNR {{ t.pnrNumber }}</span>
+              <span
+                class="re-badge"
+                [class.re-badge--success]="t.status === 'CONFIRMED'"
+                [class.re-badge--danger]="t.status === 'CANCELLED'"
+              >
+                {{ t.status }}
+              </span>
+            </div>
+            <h3 class="ticket-train">{{ t.trainName }} · {{ t.trainNumber }}</h3>
+            <div class="ticket-meta">
+              <span><mat-icon>calendar_today</mat-icon>{{ t.journeyDate | date: 'mediumDate' }}</span>
+              <span><mat-icon>event_seat</mat-icon>{{ $any(labels)[t.travelClass] }} · {{ t.seatNumbers.join(', ') }}</span>
+            </div>
+          </div>
+          <div class="ticket-card__side">
+            <span class="ticket-total">₹{{ t.totalFare }}</span>
             @if (t.status === 'CONFIRMED') {
               <button
-                matButton
-                color="warn"
+                class="re-btn re-btn--danger re-btn--sm"
                 (click)="cancel(t)"
                 [disabled]="cancellingId() === t.id"
               >
-                {{ cancellingId() === t.id ? 'Cancelling…' : 'Cancel' }}
+                {{ cancellingId() === t.id ? 'Cancelling…' : 'Cancel booking' }}
               </button>
             }
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let row; columns: columns"></tr>
-      </table>
-    </mat-card>
+          </div>
+        </article>
+      }
+    </div>
   }
 </section>

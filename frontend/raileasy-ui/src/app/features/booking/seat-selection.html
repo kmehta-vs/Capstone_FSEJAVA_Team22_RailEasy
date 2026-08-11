@@ -1,11 +1,12 @@
 <section class="seat-selection">
   <div class="header-row">
-    <button matIconButton (click)="back()" aria-label="Back to search">
+    <button class="re-btn re-btn--icon re-btn--secondary" (click)="back()" aria-label="Back to search">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <div>
-      <h2>{{ trainName }}</h2>
-      <p class="subtitle">{{ labels[travelClass] }} · ₹{{ fare }} per seat</p>
+      <p class="re-eyebrow">Choose your seats</p>
+      <h1 class="re-page-title seat-title">{{ trainName }}</h1>
+      <p class="subtitle">{{ labels[travelClass] }} · ₹{{ fare }} per seat · up to {{ maxSeats }} seats</p>
     </div>
   </div>
 
@@ -14,21 +15,21 @@
   }
 
   @if (error()) {
-    <p class="error-msg">
+    <p class="re-alert re-alert--error">
       <mat-icon>error</mat-icon>
       {{ error() }}
     </p>
   }
 
   @if (!loading() && !error()) {
-    <mat-card class="seat-card" appearance="outlined">
-      <mat-card-content>
-        <div class="legend">
-          <span class="legend-item"><span class="swatch available"></span> Available</span>
-          <span class="legend-item"><span class="swatch selected"></span> Selected</span>
-          <span class="legend-item"><span class="swatch booked"></span> Booked</span>
-        </div>
+    <div class="re-card seat-card">
+      <div class="legend">
+        <span class="legend-item"><span class="swatch available"></span> Available</span>
+        <span class="legend-item"><span class="swatch selected"></span> Selected</span>
+        <span class="legend-item"><span class="swatch booked"></span> Booked</span>
+      </div>
 
+      <div class="coach">
         <div class="grid">
           @for (seat of seats(); track seat.label) {
             <button
@@ -38,26 +39,35 @@
               [class.selected]="isSelected(seat.label)"
               [disabled]="seat.booked"
               (click)="toggle(seat)"
-              [attr.aria-label]="'Seat ' + seat.label + (seat.booked ? ' booked' : '')"
+              [attr.aria-label]="'Seat ' + seat.label + (seat.booked ? ' — booked' : isSelected(seat.label) ? ' — selected' : ' — available')"
+              [attr.aria-pressed]="isSelected(seat.label)"
             >
               {{ seat.label }}
             </button>
           }
         </div>
-      </mat-card-content>
+      </div>
+    </div>
 
-      <mat-card-actions class="summary">
-        <div class="summary-info">
-          <span>{{ selected().length }} / {{ maxSeats }} seats</span>
-          @if (selected().length > 0) {
-            <span class="seats-list">{{ selected().join(', ') }}</span>
-          }
-          <span class="total">Total: ₹{{ totalFare() }}</span>
+    <div class="re-card summary-bar">
+      <div class="summary-info">
+        <div class="summary-count">
+          <span class="summary-count__num">{{ selected().length }}</span>
+          <span class="summary-count__den">/ {{ maxSeats }} seats selected</span>
         </div>
-        <button matButton="filled" color="primary" (click)="proceed()" [disabled]="booking()">
-          {{ booking() ? 'Booking…' : 'Confirm Booking' }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
+        @if (selected().length > 0) {
+          <span class="seats-list">{{ selected().join(', ') }}</span>
+        } @else {
+          <span class="seats-list seats-list--empty">Tap seats above to select</span>
+        }
+      </div>
+      <div class="summary-total">
+        <span class="total-label">Total</span>
+        <span class="total">₹{{ totalFare() }}</span>
+      </div>
+      <button class="re-btn re-btn--primary" (click)="proceed()" [disabled]="booking() || selected().length === 0">
+        {{ booking() ? 'Confirming…' : 'Confirm booking' }}
+      </button>
+    </div>
   }
 </section>

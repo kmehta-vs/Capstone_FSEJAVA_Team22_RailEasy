@@ -1,7 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,8 +25,6 @@ interface Seat {
 @Component({
   selector: 'app-seat-selection',
   imports: [
-    MatCardModule,
-    MatButtonModule,
     MatIconModule,
     MatProgressBarModule,
   ],

@@ -1,36 +1,45 @@
 .seat-selection {
-  max-width: 640px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--re-space-6);
 }
 
 .header-row {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: var(--re-space-4);
 
-  h2 {
-    margin: 0;
+  .seat-title {
+    font-size: var(--re-fs-xl);
   }
 
   .subtitle {
-    margin: 0;
-    opacity: 0.7;
+    margin: 4px 0 0;
+    color: var(--re-ink-500);
+    font-size: var(--re-fs-sm);
+    font-weight: 500;
   }
+}
+
+.seat-card {
+  padding: var(--re-space-6);
 }
 
 .legend {
   display: flex;
-  gap: 1.25rem;
-  margin-bottom: 1rem;
+  gap: var(--re-space-5);
+  margin-bottom: var(--re-space-5);
   flex-wrap: wrap;
 
   .legend-item {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.85rem;
+    gap: 8px;
+    font-size: var(--re-fs-sm);
+    font-weight: 600;
+    color: var(--re-ink-600);
   }
 
   .swatch {
@@ -40,81 +49,136 @@
     display: inline-block;
 
     &.available {
-      background: #c8e6c9;
-      border: 1px solid #2e7d32;
+      background: var(--re-white);
+      border: 1.5px solid var(--re-ink-300);
     }
     &.selected {
-      background: #1565c0;
+      background: var(--re-primary-600);
     }
     &.booked {
-      background: #ef9a9a;
-      border: 1px solid #c62828;
+      background: var(--re-ink-200);
+      border: 1.5px solid var(--re-ink-300);
     }
   }
+}
+
+.coach {
+  border-radius: var(--re-radius-md);
+  background: var(--re-ink-50);
+  padding: var(--re-space-6) var(--re-space-5);
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 8px;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .seat {
   aspect-ratio: 1;
-  border: 1px solid #2e7d32;
-  background: #c8e6c9;
-  color: #1b5e20;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  border: 1.5px solid var(--re-ink-300);
+  background: var(--re-white);
+  color: var(--re-ink-700);
+  border-radius: 8px;
+  font-size: var(--re-fs-xs);
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.08s ease;
+  transition: transform 0.08s ease, background-color 0.12s ease, border-color 0.12s ease;
 
   &:hover:not(:disabled) {
-    transform: scale(1.05);
+    border-color: var(--re-primary-400);
+    background: var(--re-primary-50);
   }
 
   &.selected {
-    background: #1565c0;
-    border-color: #0d47a1;
+    background: var(--re-primary-600);
+    border-color: var(--re-primary-700);
     color: #fff;
   }
 
   &.booked {
-    background: #ef9a9a;
-    border-color: #c62828;
-    color: #7f1d1d;
+    background: var(--re-ink-200);
+    border-color: var(--re-ink-300);
+    color: var(--re-ink-400);
     cursor: not-allowed;
   }
 }
 
-.summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-
-  .summary-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
+@media (max-width: 540px) {
+  .grid {
+    gap: 6px;
   }
 
-  .seats-list {
-    font-size: 0.85rem;
-    opacity: 0.75;
-  }
-
-  .total {
-    font-weight: 700;
+  .coach {
+    padding: var(--re-space-4) var(--re-space-3);
   }
 }
 
-.error-msg {
+.summary-bar {
+  position: sticky;
+  bottom: var(--re-space-4);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #c62828;
+  justify-content: space-between;
+  gap: var(--re-space-5);
+  padding: var(--re-space-4) var(--re-space-5);
+  flex-wrap: wrap;
+}
+
+.summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-count {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.summary-count__num {
+  font-size: var(--re-fs-lg);
+  font-weight: 800;
+  color: var(--re-ink-900);
+}
+
+.summary-count__den {
+  font-size: var(--re-fs-sm);
+  color: var(--re-ink-500);
+  font-weight: 600;
+}
+
+.seats-list {
+  font-size: var(--re-fs-sm);
+  color: var(--re-primary-700);
+  font-weight: 600;
+}
+
+.seats-list--empty {
+  color: var(--re-ink-400);
+  font-weight: 500;
+}
+
+.summary-total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.total-label {
+  font-size: var(--re-fs-xs);
+  color: var(--re-ink-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+}
+
+.total {
+  font-weight: 800;
+  font-size: var(--re-fs-lg);
+  color: var(--re-ink-900);
 }
