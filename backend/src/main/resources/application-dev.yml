@@ -6,7 +6,7 @@
 # ---------------------------------------------------------------------------
 spring:
   datasource:
-    url: jdbc:h2:file:./data/raileasy;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:./data/raileasy;AUTO_SERVER=TRUE
     driver-class-name: org.h2.Driver
     username: sa
     password: ""
