@@ -1,5 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
@@ -20,6 +21,7 @@ const USER_KEY = 'raileasy.user';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
   private readonly baseUrl = `${environment.apiBaseUrl}/auth`;
 
   private readonly _user = signal<AuthUser | null>(this.readUser());
@@ -46,12 +48,17 @@ export class AuthService {
       .pipe(tap((res) => this.setSession(res)));
   }
 
-  /** Clears the session (also calls the backend for symmetry). */
+  /** Clears the session (also calls the backend for symmetry) and redirects home. */
   logout(): void {
     this.http.post(`${this.baseUrl}/logout`, {}).subscribe({
-      next: () => this.clearSession(),
-      error: () => this.clearSession(),
+      next: () => this.clearSessionAndRedirect(),
+      error: () => this.clearSessionAndRedirect(),
     });
+  }
+
+  private clearSessionAndRedirect(): void {
+    this.clearSession();
+    this.router.navigate(['/']);
   }
 
   private setSession(res: AuthResponse): void {

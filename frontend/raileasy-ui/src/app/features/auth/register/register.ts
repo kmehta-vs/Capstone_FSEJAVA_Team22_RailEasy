@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -47,17 +48,20 @@ export class Register {
 
     const { name, email, password } = this.form.getRawValue();
     this.loading.set(true);
-    this.auth.register({ name: name!, email: email!, password: password! }).subscribe({
-      next: () => {
-        this.loading.set(false);
-        this.snackBar.open('Account created! Please sign in.', 'Dismiss', { duration: 3000 });
-        this.router.navigate(['/login']);
-      },
-      error: (err) => {
-        this.loading.set(false);
-        const message = err?.error?.message ?? 'Registration failed. Please try again.';
-        this.snackBar.open(message, 'Dismiss', { duration: 4000 });
-      },
-    });
+    this.auth
+      .register({ name: name!, email: email!, password: password! })
+      .pipe(switchMap(() => this.auth.login({ email: email!, password: password! })))
+      .subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.snackBar.open('Account created! Welcome to RailEasy.', 'Dismiss', { duration: 3000 });
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this.loading.set(false);
+          const message = err?.error?.message ?? 'Registration failed. Please try again.';
+          this.snackBar.open(message, 'Dismiss', { duration: 4000 });
+        },
+      });
   }
 }
