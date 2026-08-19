@@ -39,6 +39,22 @@
   overflow-x: auto;
 }
 
+// On narrow screens, drop the least essential column so the row/train or
+// route stay readable and the edit/delete actions don't require a sideways
+// scroll to reach. The full detail is still one tap away in the edit dialog.
+@media (max-width: 560px) {
+  .col-hide-narrow {
+    display: none;
+  }
+
+  // Stacking beats shrinking here — two full-size, easily-tappable icon
+  // buttons in a column take less width than the same pair side by side.
+  .row-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
 .row-actions {
   white-space: nowrap;
   text-align: right;

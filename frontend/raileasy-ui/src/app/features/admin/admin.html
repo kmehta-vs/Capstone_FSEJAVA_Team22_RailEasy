@@ -41,8 +41,8 @@
                 <td mat-cell *matCellDef="let t">{{ t.trainName }}</td>
               </ng-container>
               <ng-container matColumnDef="seats">
-                <th mat-header-cell *matHeaderCellDef>Seats/class</th>
-                <td mat-cell *matCellDef="let t">{{ t.seatsPerClass }}</td>
+                <th mat-header-cell *matHeaderCellDef class="col-hide-narrow">Seats/class</th>
+                <td mat-cell *matCellDef="let t" class="col-hide-narrow">{{ t.seatsPerClass }}</td>
               </ng-container>
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>
@@ -103,8 +103,8 @@
                 <td mat-cell *matCellDef="let s">{{ s.departureTime | date: 'MMM d, HH:mm' }}</td>
               </ng-container>
               <ng-container matColumnDef="fares">
-                <th mat-header-cell *matHeaderCellDef>Fares (SL/AC3/AC2)</th>
-                <td mat-cell *matCellDef="let s">₹{{ s.fareSleeper }} / ₹{{ s.fareAc3 }} / ₹{{ s.fareAc2 }}</td>
+                <th mat-header-cell *matHeaderCellDef class="col-hide-narrow">Fares (SL/AC3/AC2)</th>
+                <td mat-cell *matCellDef="let s" class="col-hide-narrow">₹{{ s.fareSleeper }} / ₹{{ s.fareAc3 }} / ₹{{ s.fareAc2 }}</td>
               </ng-container>
               <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef></th>

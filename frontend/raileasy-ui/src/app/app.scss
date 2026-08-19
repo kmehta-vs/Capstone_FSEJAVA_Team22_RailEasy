@@ -1,3 +1,24 @@
+.re-skip-link {
+  position: absolute;
+  top: -56px;
+  left: var(--re-space-4);
+  z-index: 100;
+  background: var(--re-primary-700);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--re-radius-sm);
+  font-weight: 700;
+  font-size: var(--re-fs-sm);
+  text-decoration: none;
+  transition: top 0.15s ease;
+
+  &:focus-visible {
+    top: var(--re-space-3);
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+}
+
 .re-header {
   position: sticky;
   top: 0;
@@ -156,8 +177,11 @@
     display: inline-flex;
   }
 
+  // The mobile hamburger nav already repeats every link the avatar menu
+  // offers (plus more) — keep only one nav entry point at this width instead
+  // of showing two overlapping menus side by side.
   .re-header__actions a.re-btn,
-  .re-header__actions .re-user__name {
+  .re-header__actions .re-user {
     display: none;
   }
 
@@ -167,6 +191,32 @@
     padding: var(--re-space-2) var(--re-space-4) var(--re-space-4);
     border-top: 1px solid var(--re-border);
     background: var(--re-white);
+
+    &__identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 4px;
+      border-bottom: 1px solid var(--re-ink-100);
+      font-weight: 600;
+      font-size: var(--re-fs-sm);
+      color: var(--re-ink-800);
+    }
+
+    &__avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--re-primary-100);
+      color: var(--re-primary-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      flex: none;
+    }
 
     a,
     button {
@@ -188,6 +238,12 @@
       }
     }
   }
+}
+
+// The skip link moves focus here for keyboard/screen-reader users; a
+// full-width outline around the whole content region would just look broken.
+#main-content:focus-visible {
+  outline: none;
 }
 
 .re-footer {

@@ -1,4 +1,6 @@
 <div class="re-shell">
+  <a href="#main-content" class="re-skip-link">Skip to main content</a>
+
   <header class="re-header">
     <div class="re-header__bar">
       <a routerLink="/" class="re-brand">
@@ -62,6 +64,12 @@
 
     @if (mobileNavOpen()) {
       <nav class="re-mobile-nav" aria-label="Mobile">
+        @if (auth.isLoggedIn()) {
+          <div class="re-mobile-nav__identity">
+            <span class="re-mobile-nav__avatar">{{ (auth.user()?.name ?? '?').charAt(0) }}</span>
+            <span>{{ auth.user()?.name }}</span>
+          </div>
+        }
         <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="is-active">Search trains</a>
         @if (auth.isLoggedIn()) {
           <a routerLink="/my-tickets" routerLinkActive="is-active">My tickets</a>
@@ -79,7 +87,7 @@
     }
   </header>
 
-  <main class="re-page">
+  <main class="re-page" id="main-content" tabindex="-1">
     <router-outlet></router-outlet>
   </main>
 

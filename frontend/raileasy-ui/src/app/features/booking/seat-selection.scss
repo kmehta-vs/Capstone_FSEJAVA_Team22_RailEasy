@@ -87,7 +87,10 @@
   cursor: pointer;
   transition: transform 0.08s ease, background-color 0.12s ease, border-color 0.12s ease;
 
-  &:hover:not(:disabled) {
+  // :not(.selected) keeps this from outranking `.selected` below on specificity
+  // (a class + two pseudo-classes would otherwise beat two plain classes and
+  // fade a selected, hovered seat back down to a barely-there tint).
+  &:hover:not(:disabled):not(.selected) {
     border-color: var(--re-primary-400);
     background: var(--re-primary-50);
   }
@@ -96,6 +99,11 @@
     background: var(--re-primary-600);
     border-color: var(--re-primary-700);
     color: #fff;
+
+    &:hover {
+      background: var(--re-primary-700);
+      border-color: var(--re-primary-800);
+    }
   }
 
   &.booked {

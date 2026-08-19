@@ -310,6 +310,19 @@ mat-card.mat-mdc-card {
   }
 }
 
+// Solid destructive action — reserved for the confirming action inside a
+// confirmation dialog, where the button itself must read as "the point of
+// no return" rather than a subtle row-level trigger.
+.re-btn--danger-solid {
+  background: var(--re-danger-500);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(185, 28, 28, 0.15), 0 4px 10px rgba(185, 28, 28, 0.18);
+
+  &:hover:not(:disabled) {
+    background: var(--re-danger-600);
+  }
+}
+
 .re-btn--full {
   width: 100%;
 }
@@ -441,6 +454,16 @@ mat-card.mat-mdc-card {
     .mdc-notched-outline__notch,
     .mdc-notched-outline__trailing {
       border-color: var(--re-primary-500) !important;
+    }
+  }
+
+  // Invalid + touched — must come after the base/focused rules above so the
+  // red outline isn't quietly overridden back to the neutral border color.
+  &.mat-form-field-invalid {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--re-danger-500) !important;
     }
   }
 }
